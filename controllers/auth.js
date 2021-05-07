@@ -68,6 +68,7 @@ exports.loginRetailer = asyncHandler(async (req, res, next) => {
   }
   //Check for user
   const user = await User.findOne({ userName }).select("+password");
+  console.log("UserData is ",user);
   if (!user) {
     return next(new ErrorResponse("Invalide credentials", 401));
   }
