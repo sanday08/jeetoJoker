@@ -141,9 +141,9 @@ getResult = async ( stopNum) => {
     }
 
 
-  io.in(gameName).emit("res", {
+  io.emit("res", {
     data: {
-      gameName,
+    
       data: result
     },
     en: "result",
@@ -178,7 +178,7 @@ payTransaction = async ( result) => {
         let userId = await winGamePay(transactions[result][transId], transId, result);
         io.to(retailers[userId]).emit("res", {
           data: {
-            gameName,
+           
             data: { winAmount: transactions[result][transId] }
           },
           en: "winner",
