@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
   socket.on("placeBet", async ({ retailerId,  position, betPoint}) => {
 
     const result = await placeBet(retailerId,  position, betPoint);
-    console.log( "  :  ", position, " Bet Point :  ", betPoint, position2);
+  
     if (result != 0) {    
       playJeetoJoker(position, result);     
       console.log("Viju vinod Chopda before : ", games.rouletteMini.adminBalance, games.adminBalance)
