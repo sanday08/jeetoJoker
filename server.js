@@ -103,7 +103,7 @@ app.use("/api/retailers", retailers);
 //custome error handling from express error handler (Always write below the Mount Routes)
 app.use(errorHandler);
 
-const Port = process.env.PORT || 5000;
+const Port =6000;
 const serverException = server.listen(
   Port,
   console.log(
