@@ -17,7 +17,7 @@ router.use(authorize("retailer"));
 // router.route("/reduceCreditPoint").post(reduceDistributerCreditPoint);
 // router.route("/distributers").get(getDistributers);
 // router.route("/retailers").get(getRetailers);
-router.route("/reprint/:drTime").get(getReprintData);
+router.route("/reprint/:ticketId").get(getReprintData);
 router.route("/winResultByDate/:date").get(getWinnerResultsByDate);
 router.route("/days7/:date").get(get7Days);
 router.route("/claim").put(claimeTicket);
