@@ -24,6 +24,18 @@ exports.get7Days = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ success: true, data: result })
 });
 
+//@desc      Get Current Draw Records
+//@routes    Get /api/retailers/reprint/:drTime
+//Access     Private/Retailers
+exports.getReprintData = asyncHandler(async (req, res, next) => {
+    var now = new Date();
+    var startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    let bets = await Bet.find({ DrTime: req.params.drTime, createdAt: { $gte: startOfToday } });
+
+    res.status(200).json({ success: true, data: bets });
+});
+
 
 
 

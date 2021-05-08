@@ -12,7 +12,7 @@ async function placeBet(retailerId, position, betPoint,ticketId) {
      
         bet = await Bet.create({
           retailerId, bet: betPoint, startPoint: user.creditPoint, userName: user.userName, position, name: user.name,ticketId})
-      await User.findByIdAndUpdate(retailerId, { $inc: { creditPoint: -betPoint, playPoint: betPoint}, lastBetAmount: betPoint })
+      await User.findByIdAndUpdate(retailerId, { $inc: { creditPoint: -betPoint, playPoint: betPoint}, lastBetAmount: betPoint, lastTicketId:ticketId })
     
       return bet._id;
     }

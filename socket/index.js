@@ -26,13 +26,13 @@ io.on("connection", (socket) => {
     console.log("Join call Game  ")
 
     let numbers = await getLastrecord( user._id)
-    let gameData = await getCurrentBetData( user._id)  
+    // let gameData = await getCurrentBetData( user._id)  
     socket.emit("res", {
       data: {
         user,
         time: new Date().getTime() / 1000 - games.startTime,
         numbers: numbers.records,     
-        gameData
+      
       },
       en: "join",
       status: 1,
