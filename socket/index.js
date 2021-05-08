@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
   
     if (result != 0) {    
       playJeetoJoker(position, result);     
-      console.log("Viju vinod Chopda before : ", games.rouletteMini.adminBalance, games.adminBalance)
+  
       if (betPoint)
         games.adminBalance += betPoint * adminPer / 100;
 
