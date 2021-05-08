@@ -3,6 +3,7 @@ const { getUserInfoBytoken } = require("./utils/users");
 const { placeBet, winGamePay, getAdminPer, addGameResult, getLastrecord,  getCurrentBetData } = require("./utils/bet");
 const immutable = require("object-path-immutable");
 var _ = require("lodash")
+const nanoid = customAlphabet("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ", 10);
 let games = {startTime: new Date().getTime() / 1000, position: {}, adminBalance: 0 };
 //users: use for store game Name so when user leave room than we can used
 let users = {}
@@ -38,8 +39,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("placeBet", async ({ retailerId,  position, betPoint}) => {
-
-    const result = await placeBet(retailerId,  position, betPoint);
+    let ticketId = nanoid();
+    const result = await placeBet(retailerId,  position, betPoint, ticketId);
   
     if (result != 0) {    
       playJeetoJoker(position, result);     
@@ -49,6 +50,15 @@ io.on("connection", (socket) => {
 
       console.log("Viju vinod Chopda Admin balance is: ", games.adminBalance)
     }
+
+    socket.emit("res", {
+      data: {
+        ticketId,
+        result:result==0?"You don't have sufficient Balance or Error on Place bet":"Place Bet Success",
+              },
+      en: "placeBet",
+      status: 1,
+    });
 
   })
  

@@ -3,7 +3,7 @@ const User = require("../../models/User");
 const Bet = require("../../models/Bet");
 const WinResult = require("../../models/WinResult");
 const Winning = require("../../models/Winning");
-async function placeBet(retailerId, position, betPoint) {
+async function placeBet(retailerId, position, betPoint,ticketId) {
   //Verify Token
   try {
     let user = await User.findById(retailerId);
@@ -11,7 +11,7 @@ async function placeBet(retailerId, position, betPoint) {
     if (user.creditPoint >= betPoint) {
      
         bet = await Bet.create({
-          retailerId, bet: betPoint, startPoint: user.creditPoint, userName: user.userName, position, name: user.name,})
+          retailerId, bet: betPoint, startPoint: user.creditPoint, userName: user.userName, position, name: user.name,ticketId})
       await User.findByIdAndUpdate(retailerId, { $inc: { creditPoint: -betPoint, playPoint: betPoint}, lastBetAmount: betPoint })
     
       return bet._id;

@@ -19,7 +19,10 @@ const BetSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
-    
+    ticketId: {
+        type: String,
+        required: true,
+    },
     bet: Number,
     winPosition: {
         type: String,
