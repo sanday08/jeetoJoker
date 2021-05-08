@@ -3,6 +3,7 @@ const { getUserInfoBytoken } = require("./utils/users");
 const { placeBet, winGamePay, getAdminPer, addGameResult, getLastrecord,  getCurrentBetData } = require("./utils/bet");
 const immutable = require("object-path-immutable");
 var _ = require("lodash")
+const { customAlphabet } = require("nanoid");
 const nanoid = customAlphabet("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ", 10);
 let games = {startTime: new Date().getTime() / 1000, position: {}, adminBalance: 0 };
 //users: use for store game Name so when user leave room than we can used
