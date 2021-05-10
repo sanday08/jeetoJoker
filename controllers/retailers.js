@@ -10,13 +10,13 @@ const Complaint = require("../models/Complaint");
 
 
 //@desc      Get 7Days Bet History
-//@routes    GET /api/retailers/betHistroy
+//@routes    GET /api/retailers/tickets
 //Access     Private/Admin
-exports.get7Days = asyncHandler(async (req, res, next) => {
-    console.log("date by Piyush", req.params.date)
+exports.getDayTickets = asyncHandler(async (req, res, next) => {
+    console.log("date by Piyush", req.query.fromDate,req.query.toDate);
     let result = await WinResult.find({
         createDate: {
-            $gte: new Date(new Date(req.params.date) - 7 * 24 * 60 * 60 * 1000),
+            $gte: new Date(req.query.fromDate),
             $lt: new Date(req.params.date),
         }
     })
