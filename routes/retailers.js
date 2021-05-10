@@ -20,7 +20,7 @@ router.use(authorize("retailer"));
 router.route("/reprint/:ticketId").get(getReprintData);
 router.route("/tickets").get(getDayTickets);
 router.route("/winResultByDate/:date").get(getWinnerResultsByDate);
-router.route("/days7/:date").get(get7Days);
+
 router.route("/claim").put(claimeTicket);
 router.route("/complaint").post(addComplaint);
 module.exports = router;
