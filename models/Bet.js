@@ -39,7 +39,10 @@ const BetSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-  
+    claim: {
+        type: Boolean,
+        default: false,
+    },
 
     DrTime: {
         type: String,
