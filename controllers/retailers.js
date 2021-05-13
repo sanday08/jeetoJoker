@@ -65,20 +65,7 @@ exports.getBetHistoryReport = asyncHandler(async (req, res, next) => {
                 }
             }
         },
-        {
-            $group: {
-                _id: '$DrDate',
-                totalBetPoints: {
-                    $sum: '$betPoint'
-                },
-                totalWon: {
-                    $sum: '$won'
-                },
-                commissionPoint: {
-                    $sum: '$retailerCommission'
-                }
-            }
-        }
+      
     ]);//await Bet.aggregate().gr
 
     return res.status(200).json({ success: true, data: result })

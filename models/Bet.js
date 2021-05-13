@@ -35,6 +35,9 @@ const BetSchema = new mongoose.Schema({
         type: Object,
         required: true
     },
+    endPoint:{
+        type: Number,
+    },
     won: {
         type: Number,
         default: 0

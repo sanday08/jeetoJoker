@@ -11,7 +11,7 @@ async function placeBet(retailerId, position, betPoint,ticketId) {
     if (user.creditPoint >= betPoint) {
      
         bet = await Bet.create({
-          retailerId, bet: betPoint, startPoint: user.creditPoint, userName: user.userName, position, name: user.name,ticketId})
+          retailerId, bet: betPoint, startPoint: user.creditPoint, userName: user.userName, position, name: user.name,ticketId,endPoint:user.creditPoint})
       await User.findByIdAndUpdate(retailerId, { $inc: { creditPoint: -betPoint, playPoint: betPoint}, lastBetAmount: betPoint, lastTicketId:ticketId })
     
       return bet._id;
@@ -28,7 +28,7 @@ async function winGamePay(price, betId, winPosition) {
   try {
     console.log("WInGame Pay: price : ", price, "  betId : ", betId, " winPosition : ", winPosition)
     
-    const betData = await Bet.findByIdAndUpdate(betId, { $inc: { won: price } });
+    const betData = await Bet.findByIdAndUpdate(betId, { $inc: { won: price, endPoint:price }, });
     let user = "";
     user = await User.findByIdAndUpdate(betData.retailerId, { $inc: { creditPoint: price, wonPoint: price } });
 
