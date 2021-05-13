@@ -73,6 +73,20 @@ exports.getBetHistroy = asyncHandler(async (req, res, next) => {
 });
 
 
+//@desc      Get  Bet History via user and DateWise
+//@routes    GET /api/retailers/betHistroy/:retailerId
+//Access     Private/Admin
+exports.getBetHistroyDayWise = asyncHandler(async (req, res, next) => {
+
+    console.log(req.query.retailerId, )
+
+    const bets = await Bet.find({ retailerId: req.query.retailerId,DrDate:req.query.date});
+
+    res.status(200).json({ success: true, count: bets.length, data: bets });
+});
+
+
+
 
 //@desc      Get all Online Retailer
 //@routes    GET /api/retailers/online
@@ -85,9 +99,8 @@ exports.getOnlineRetailers = asyncHandler(async (req, res, next) => {
 
 
 
-
 //@desc      Get all Win Result History
-//@routes    GET /api/retailers/winResultByDate
+//@routes    GET /api/retailers/winResultByDate/:date
 //Access     Private/Admin
 exports.getWinnerResultsByDate = asyncHandler(async (req, res, next) => {
 
@@ -142,12 +155,3 @@ exports.addComplaint = asyncHandler(async (req, res, next) => {
 
 
 
-//@desc      Get 7days Win Result History
-//@routes    GET /api/retailers/winResultByDate
-//Access     Private/Admin
-exports.getWinnerResultsByDate = asyncHandler(async (req, res, next) => {
-
-    console.log(req.query.date, req.body.date, req.params.date)
-    const winnerHistory = await WinResult.find({ DrDate: req.params.date });
-    res.status(200).json({ success: true, count: winnerHistory.length, data: winnerHistory });
-});
