@@ -66,8 +66,8 @@ exports.getBetHistoryReport = asyncHandler(async (req, res, next) => {
             }
         },
       
-    ]);//await Bet.aggregate().gr
-
+    ]);
+    console.log("Result is ",result,"  Start Date : ",new Date(req.query.dateStart),"  End Date : ",new Date(req.query.dateEnd));
     return res.status(200).json({ success: true, data: result })
 });
 
