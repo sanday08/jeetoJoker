@@ -60,14 +60,14 @@ exports.getBetHistoryReport = asyncHandler(async (req, res, next) => {
             $match: {
                 retailerId: mongoose.Types.ObjectId(req.user.id),
                 createDate: {
-                    $gte: new Date(req.query.dateStart),
-                    $lte: new Date(req.query.dateEnd)
+                    $gte: new Date(req.query.startDate),
+                    $lte: new Date(req.query.endDate)
                 }
             }
         },
       
     ]);
-    console.log("Result is ",result,"  Start Date : ",new Date(req.query.dateStart),"  End Date : ",new Date(req.query.dateEnd));
+    console.log("Result is ",result,"  Start Date : ",new Date(req.query.startDate),"  End Date : ",new Date(req.query.endDate));
     return res.status(200).json({ success: true, data: result })
 });
 
