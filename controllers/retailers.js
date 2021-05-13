@@ -50,20 +50,53 @@ exports.getReprintData = asyncHandler(async (req, res, next) => {
     res.status(200).json({ success: true, data: bet });
 });
 
+//@desc      Get Start to End Date Bet History
+//@routes    GET /api/retailers/betHistoryReports
+//Access     Private/Admin
+exports.getBetHistoryReport = asyncHandler(async (req, res, next) => {
+    console.log("date by Piyush", req.params, req.query, req.body);
+    let result = await Bet.aggregate([
+        {
+            $match: {
+                retailerId: mongoose.Types.ObjectId(req.user.id),
+                createDate: {
+                    $gte: new Date(req.query.dateStart),
+                    $lte: new Date(req.query.dateEnd)
+                }
+            }
+        },
+        {
+            $group: {
+                _id: '$DrDate',
+                totalBetPonts: {
+                    $sum: '$betPoint'
+                },
+                totalWon: {
+                    $sum: '$won'
+                },
+                commissionPoint: {
+                    $sum: '$retailerCommission'
+                }
+            }
+        }
+    ]);//await Bet.aggregate().gr
+
+    return res.status(200).json({ success: true, data: result })
+});
 
 
 
 //@desc      Get all Bet History
-//@routes    GET /api/retailers/betHistroy
+//@routes    GET /api/retailers/betHistory
 //Access     Private/Admin
-exports.getAllBetHistroy = asyncHandler(async (req, res, next) => {
+exports.getAllBetHistory = asyncHandler(async (req, res, next) => {
     res.status(200).json(res.advancedResults);
 });
 
 //@desc      Get  Bet History via user
-//@routes    GET /api/retailers/betHistroy/:retailerId
+//@routes    GET /api/retailers/betHistory/:retailerId
 //Access     Private/Admin
-exports.getBetHistroy = asyncHandler(async (req, res, next) => {
+exports.getBetHistory = asyncHandler(async (req, res, next) => {
 
     console.log(req.query.retailerId, req.body.retailerId, req.params.retailerId)
 
@@ -74,9 +107,9 @@ exports.getBetHistroy = asyncHandler(async (req, res, next) => {
 
 
 //@desc      Get  Bet History via user and DateWise
-//@routes    GET /api/retailers/betHistroy/:retailerId
+//@routes    GET /api/retailers/betDayHistory
 //Access     Private/Admin
-exports.getBetHistroyDayWise = asyncHandler(async (req, res, next) => {
+exports.getBetHistoryDayWise = asyncHandler(async (req, res, next) => {
 
     console.log(req.query.retailerId, )
 
