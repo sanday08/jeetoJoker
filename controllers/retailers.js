@@ -68,7 +68,7 @@ exports.getBetHistoryReport = asyncHandler(async (req, res, next) => {
         {
             $group: {
                 _id: '$DrDate',
-                totalBetPonts: {
+                totalBetPoints: {
                     $sum: '$betPoint'
                 },
                 totalWon: {
