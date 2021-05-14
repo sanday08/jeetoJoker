@@ -108,5 +108,5 @@ process.on("unhandledRejection", (err, promise) => {
   serverException.close(() => process.exit(1));
 });
 
-module.exports = { io, istdate };
+module.exports = { io };
 require("./socket/index");
