@@ -141,7 +141,7 @@ exports.claimeTicket = asyncHandler(async (req, res, next) => {
     if (bets.length != 0) {
         console.log(bets[0].retailerId, "& this is the system Owner Id", req.user.id)
         if (bets[0].retailerId == req.user.id) {
-            if (bets[0].winPositions.length == 0)
+            if (bets[0].winPositions == "")
                 result = "Result Not yet Declared";
             else if (bets[0].claim) {
                 result = "Ticket Already Claimed."
