@@ -57,7 +57,7 @@ const BetSchema = new mongoose.Schema({
     },
     createDate: {
         type: Date,
-        default: new Date().now(),
+        default: (()=>new Date()),
     },
     andarBaharResult: String
 
