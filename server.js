@@ -57,7 +57,7 @@ const io = socketio(server);
 
 //file upload middleware allways add first
 app.use(fileUpload());
-
+console.log("Today is :",new Date());
 //Body parser
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
