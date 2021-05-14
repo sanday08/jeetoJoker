@@ -30,7 +30,7 @@ const ComplaintSchema = new mongoose.Schema({
     },
     createDate: {
         type: Date,
-        default: new Date(),
+        default: ()=>new Date(),
     }
 
 }, { timestamps: true })
