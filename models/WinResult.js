@@ -28,7 +28,9 @@ const WinResultSchema = new mongoose.Schema({
     },
     createDate: {
         type: Date,
-        default: ()=>new Date(),
+        default: ()=>new Date().toLocaleString('en-US', {
+            timeZone: 'Asia/Calcutta'
+          })
     },
 
 }, { timestamps: true })
