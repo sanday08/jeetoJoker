@@ -40,13 +40,9 @@ const app = express();
 //Use for Socket.io
 const server = http.createServer(app);
 const io = socketio(server);
-
-
 //file upload middleware allways add first
 app.use(fileUpload());
-console.log("Today is :",new Date().toLocaleString('en-US', {
-  timeZone: 'Asia/Calcutta'
-}));
+console.log("Today is :",getDate() );
 //Body parser
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));

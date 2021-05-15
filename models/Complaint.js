@@ -22,16 +22,22 @@ const ComplaintSchema = new mongoose.Schema({
     },
     DrTime: {
         type: String,
-        default: istdate.getHours().toString() + " : " + istdate.getMinutes().toString() + " : " + istdate.getSeconds().toString(),
+        default:()=>    new Date().toLocaleString('en-US', {
+            timeZone: 'Asia/Calcutta'
+          }).toString().split(",")[1]
     },
     DrDate: {
         type: String,
-        default: istdate.getFullYear().toString() + "-" + (istdate.getMonth() + 1).toString() + "-" + istdate.getDate().toString(),
+        default: ()=>    new Date().toLocaleString('en-US', {
+            timeZone: 'Asia/Calcutta'
+          }).toString().split(",")[0].replace(/\//g,(x)=>"-"),
     },
     createDate: {
-        type: Date,
-        default: ()=>new Date(),
-    }
+        type: String,
+        default: ()=>new Date().toLocaleString('en-US', {
+            timeZone: 'Asia/Calcutta'
+          }).toString()
+    },
 
 }, { timestamps: true })
 module.exports = mongoose.model("Complaint", ComplaintSchema);
