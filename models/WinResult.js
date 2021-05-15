@@ -27,7 +27,7 @@ const WinResultSchema = new mongoose.Schema({
         default: istdate.getFullYear().toString() + "-" + (istdate.getMonth() + 1).toString() + "-" + istdate.getDate().toString(),
     },
     createDate: {
-        type: Date,
+        type: String,
         default: ()=>new Date().toLocaleString('en-US', {
             timeZone: 'Asia/Calcutta'
           }).toString()
