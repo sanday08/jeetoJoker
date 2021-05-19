@@ -64,7 +64,9 @@ const BetSchema = new mongoose.Schema(
           .toLocaleString("en-US", {
             timeZone: "Asia/Calcutta",
           })
-          .toString(),
+          .toString()
+          .split(",")[0]
+          .replace(/\//g, (x) => "-"),
     },
     createDate: {
       type: String,

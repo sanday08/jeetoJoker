@@ -21,7 +21,8 @@ const WinResultSchema = new mongoose.Schema(
             timeZone: "Asia/Calcutta",
           })
           .toString()
-          .split(",")[0],
+          .split(",")[0]
+          .replace(/\//g, (x) => "-"),
     },
     createDate: {
       type: String,
