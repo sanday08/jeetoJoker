@@ -30,8 +30,8 @@ io.on("connection", (socket) => {
   socket.on("join", async ({ token }) => {
     let user = await getUserInfoBytoken(token);
     //Log Out other User
-    if (retailers[userId] != socket.id) {
-      io.to(retailers[userId]).emit("res", {
+    if (retailers[user._id] != socket.id) {
+      io.to(retailers[user._id]).emit("res", {
         data: "Some one use your Id to other device",
         en: "logout",
         status: 1,
