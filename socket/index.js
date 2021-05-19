@@ -23,7 +23,6 @@ let users = {};
 let retailers = {};
 //TransactionId
 let transactions = {};
-let andarBaharResult = 52;
 let adminPer = 90;
 io.on("connection", (socket) => {
   //Join Event When Application is Start
@@ -117,10 +116,10 @@ setInterval(async () => {
   }
 
   //Get Admin Percentage
-  if (new Date().getMinutes() == 50) {
+  if (new Date().getMinutes() == 50 && new Date().getSeconds() < 1) {
     let p = await getAdminPer();
-    winningPercent = parseInt(p.percent);
-    console.log("Now Admin Perchanted is", winningPercent);
+    adminPer = parseInt(p.percent);
+    console.log("Now Admin Perchanted is", adminPer);
   }
 
   //}
