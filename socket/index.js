@@ -156,7 +156,7 @@ getResult = async (stopNum) => {
 
   io.emit("res", {
     data: {
-      data: result,
+      data: parseInt(result),
     },
     en: "result",
     status: 1,
