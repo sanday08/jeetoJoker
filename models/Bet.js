@@ -77,7 +77,6 @@ const BetSchema = new mongoose.Schema(
           })
           .toString(),
     },
-    andarBaharResult: String,
   },
   { timestamps: true }
 );
