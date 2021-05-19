@@ -9,35 +9,48 @@ var d = new Date();
 var utcdate = new Date(d.getTime());
 
 //Then cinver the UTS date to the required time zone offset like back to 5.5 for IST
-var istdate = new Date(utcdate.getTime() + offsetIST)
+var istdate = new Date(utcdate.getTime() + offsetIST);
 
-const ComplaintSchema = new mongoose.Schema({
+const ComplaintSchema = new mongoose.Schema(
+  {
     title: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     content: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
     DrTime: {
-        type: String,
-        default:()=>    new Date().toLocaleString('en-US', {
-            timeZone: 'Asia/Calcutta'
-          }).toString().split(",")[1]
+      type: String,
+      default: () =>
+        new Date()
+          .toLocaleString("en-US", {
+            timeZone: "Asia/Calcutta",
+          })
+          .toString()
+          .split(",")[1],
     },
     DrDate: {
-        type: String,
-        default: ()=>    new Date().toLocaleString('en-US', {
-            timeZone: 'Asia/Calcutta'
-          }).toString().split(",")[0].replace(/\//g,(x)=>"-"),
+      type: String,
+      default: () =>
+        new Date()
+          .toLocaleString("en-US", {
+            timeZone: "Asia/Calcutta",
+          })
+          .toString()
+          .split(",")[0],
     },
     createDate: {
-        type: String,
-        default: ()=>new Date().toLocaleString('en-US', {
-            timeZone: 'Asia/Calcutta'
-          }).toString()
+      type: String,
+      default: () =>
+        new Date()
+          .toLocaleString("en-US", {
+            timeZone: "Asia/Calcutta",
+          })
+          .toString(),
     },
-
-}, { timestamps: true })
+  },
+  { timestamps: true }
+);
 module.exports = mongoose.model("Complaint", ComplaintSchema);

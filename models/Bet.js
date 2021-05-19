@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 //Set you offset here like +5.5 for IST
 var offsetIST = 19800000;
 
@@ -11,63 +10,74 @@ var d = new Date();
 var utcdate = new Date(d.getTime());
 
 //Then cinver the UTS date to the required time zone offset like back to 5.5 for IST
-var istdate = new Date(utcdate.getTime() + offsetIST)
+var istdate = new Date(utcdate.getTime() + offsetIST);
 
-const BetSchema = new mongoose.Schema({
+const BetSchema = new mongoose.Schema(
+  {
     retailerId: {
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-        required: true,
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: true,
     },
     ticketId: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     bet: Number,
     winPosition: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
     startPoint: Number,
     userName: String,
     name: String,
     position: {
-        type: Object,
-        required: true
+      type: Object,
+      required: true,
     },
-    endPoint:{
-        type: Number,
+    endPoint: {
+      type: Number,
     },
     won: {
-        type: Number,
-        default: 0
+      type: Number,
+      default: 0,
     },
     claim: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
 
     DrTime: {
-        type: String,
-        default:()=>    new Date().toLocaleString('en-US', {
-            timeZone: 'Asia/Calcutta'
-          }).toString().split(",")[1]
+      type: String,
+      default: () =>
+        new Date()
+          .toLocaleString("en-US", {
+            timeZone: "Asia/Calcutta",
+          })
+          .toString()
+          .split(",")[1],
     },
     DrDate: {
-        type: String,
-        default: ()=>    new Date().toLocaleString('en-US', {
-            timeZone: 'Asia/Calcutta'
-          }).toString().split(",")[0].replace(/\//g,(x)=>"-"),
+      type: String,
+      default: () =>
+        new Date()
+          .toLocaleString("en-US", {
+            timeZone: "Asia/Calcutta",
+          })
+          .toString(),
     },
     createDate: {
-        type: String,
-        default: ()=>new Date().toLocaleString('en-US', {
-            timeZone: 'Asia/Calcutta'
-          }).toString()
+      type: String,
+      default: () =>
+        new Date()
+          .toLocaleString("en-US", {
+            timeZone: "Asia/Calcutta",
+          })
+          .toString(),
     },
-    andarBaharResult: String
-
-}, { timestamps: true })
+    andarBaharResult: String,
+  },
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Bet", BetSchema);
-
