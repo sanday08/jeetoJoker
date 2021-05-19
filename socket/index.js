@@ -62,7 +62,12 @@ io.on("connection", (socket) => {
 
       if (betPoint) games.adminBalance += (betPoint * adminPer) / 100;
 
-      console.log("Viju vinod Chopda Admin balance is: ", games.adminBalance);
+      console.log(
+        "Viju vinod Chopda Admin balance is: ",
+        games.adminBalance,
+        "     Admin Per:",
+        adminPer
+      );
     }
 
     socket.emit("res", {
@@ -112,10 +117,10 @@ setInterval(async () => {
   }
 
   //Get Admin Percentage
-  if (new Date().getMinutes() == 1) {
+  if (new Date().getMinutes() == 50) {
     let p = await getAdminPer();
-
-    winningPercent = p.percent;
+    winningPercent = parseInt(p.percent);
+    console.log("Now Admin Perchanted is", winningPercent);
   }
 
   //}
