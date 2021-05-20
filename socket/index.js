@@ -116,7 +116,7 @@ setInterval(async () => {
   }
 
   //Get Admin Percentage
-  if (new Date().getMinutes() == 50 && new Date().getSeconds() < 1) {
+  if (new Date().getMinutes() == 0 && new Date().getSeconds() < 1) {
     let p = await getAdminPer();
     adminPer = parseInt(p.percent);
     console.log("Now Admin Perchanted is", adminPer);
