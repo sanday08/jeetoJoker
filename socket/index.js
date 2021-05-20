@@ -127,9 +127,9 @@ setInterval(async () => {
 getResult = async (stopNum) => {
   let result = "";
   games.startTime = new Date().getTime() / 1000;
-
+  let sortResult;
   if (Object.keys(games.position).length != undefined) {
-    let sortResult = sortObject(games.position);
+    sortResult = sortObject(games.position);
 
     for (num of sortResult) {
       let value = Object.values(num)[0];
