@@ -23,7 +23,7 @@ let users = {};
 let retailers = {};
 //TransactionId
 let transactions = {};
-let adminPer = 5;
+let adminPer = 90;
 io.on("connection", (socket) => {
   //Join Event When Application is Start
   socket.on("join", async ({ token }) => {
