@@ -153,7 +153,7 @@ getResult = async (stopNum) => {
       counter++;
 
       if (counter == 100) {
-        result = Object.keys(games.position)[0];
+        result = Object.keys(sortResult[0])[0];
         break;
       }
     }
