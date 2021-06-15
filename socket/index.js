@@ -230,10 +230,10 @@ flushAll = () => {
 playJeetoJoker = (position, result) => {
   for (pos in position) {
     games.position = immutable.update(games.position, [pos], (v) =>
-      v ? v + position[pos] * 9 : position[pos] * 9
+      v ? v + position[pos] * 10 : position[pos] * 10
     );
     transactions = immutable.update(transactions, [pos, result], (v) =>
-      v ? v + position[pos] * 9 : position[pos] * 9
+      v ? v + position[pos] * 10 : position[pos] * 10
     );
   }
 };
