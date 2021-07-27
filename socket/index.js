@@ -24,6 +24,7 @@ let retailers = {};
 //TransactionId
 let transactions = {};
 let adminPer = 90;
+let x = 1;
 io.on("connection", (socket) => {
   //Join Event When Application is Start
   socket.on("join", async ({ token }) => {
@@ -158,18 +159,25 @@ getResult = async (stopNum) => {
         break;
       }
     }
+  x = Math.floor(Math.random() * 3) + 2;
+  if (games.adminBalance > games.position[result] * x) {
+    for (let transId in transactions[result]) {
+      transactions[result][transId] = transactions[result][transId] * x;
+    }
+  } else x = 1;
 
   io.emit("res", {
     data: {
       data: parseInt(result),
     },
+    x,
     en: "result",
     status: 1,
   });
 
-  if (games.position[result]) games.adminBalance -= games.position[result];
+  if (games.position[result]) games.adminBalance -= games.position[result] * x;
 
-  await addGameResult(result);
+  await addGameResult(result, x);
 
   await payTransaction(result);
 

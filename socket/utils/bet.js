@@ -1,4 +1,3 @@
-
 const User = require("../../models/User");
 const Bet = require("../../models/Bet");
 const WinResult = require("../../models/WinResult");
@@ -9,11 +8,21 @@ async function placeBet(retailerId, position, betPoint, ticketId) {
     let user = await User.findById(retailerId);
 
     if (user.creditPoint >= betPoint) {
-
       bet = await Bet.create({
-        retailerId, bet: betPoint, startPoint: user.creditPoint, userName: user.userName, position, name: user.name, ticketId, endPoint: user.creditPoint
-      })
-      await User.findByIdAndUpdate(retailerId, { $inc: { creditPoint: -betPoint, playPoint: betPoint }, lastBetAmount: betPoint, lastTicketId: ticketId })
+        retailerId,
+        bet: betPoint,
+        startPoint: user.creditPoint,
+        userName: user.userName,
+        position,
+        name: user.name,
+        ticketId,
+        endPoint: user.creditPoint,
+      });
+      await User.findByIdAndUpdate(retailerId, {
+        $inc: { creditPoint: -betPoint, playPoint: betPoint },
+        lastBetAmount: betPoint,
+        lastTicketId: ticketId,
+      });
 
       return bet._id;
     }
@@ -25,61 +34,63 @@ async function placeBet(retailerId, position, betPoint, ticketId) {
 }
 
 async function winGamePay(price, betId, winPosition) {
-
   try {
-    console.log("WInGame Pay: price : ", price, "  betId : ", betId, " winPosition : ", winPosition)
+    console.log(
+      "WInGame Pay: price : ",
+      price,
+      "  betId : ",
+      betId,
+      " winPosition : ",
+      winPosition
+    );
 
-    const betData = await Bet.findByIdAndUpdate(betId, { $inc: { won: price, endPoint: price }, });
+    const betData = await Bet.findByIdAndUpdate(betId, {
+      $inc: { won: price, endPoint: price },
+    });
     let user = "";
-    user = await User.findByIdAndUpdate(betData.retailerId, { $inc: { creditPoint: price, wonPoint: price } });
-
+    user = await User.findByIdAndUpdate(betData.retailerId, {
+      $inc: { creditPoint: price, wonPoint: price },
+    });
 
     return betData.retailerId;
-
   } catch (err) {
-    console.log("Error on winGamePay", err.message)
+    console.log("Error on winGamePay", err.message);
     return err.message;
   }
 }
 
-
-
 //Add result of the Game
-async function addGameResult(result) {
-
+async function addGameResult(result, x) {
   try {
-    await WinResult.create({ result });
-    await Bet.updateMany({ winPosition: "" }, { winPosition: result });
+    await WinResult.create({ result, x });
+    await Bet.updateMany({ winPosition: "" }, { winPosition: result, x });
   } catch (err) {
-    console.log("Error on addGameResult", err.message)
+    console.log("Error on addGameResult", err.message);
     return err.message;
   }
 }
 
 //Add result of the Game
 async function getLastrecord(retailerId) {
-
   try {
-    let result = await WinResult.find().select({ result: 1, x: 1, _id: 0 }).sort("-createdAt").limit(15);
+    let result = await WinResult.find()
+      .select({ result: 1, x: 1, _id: 0 })
+      .sort("-createdAt")
+      .limit(15);
     let data = [];
     let x = [];
-
-
 
     for (res of result) {
       data.push(res.result);
       x.push(res.x);
     }
 
-
     return { records: data, x };
   } catch (err) {
-    console.log("Error on getLastrecord", err.message)
+    console.log("Error on getLastrecord", err.message);
     return err.message;
   }
 }
-
-
 
 //Get Admin Percentage for winning Result
 async function getAdminPer() {
@@ -91,5 +102,11 @@ async function getCurrentBetData(retailerId) {
   return data;
 }
 
-
-module.exports = { placeBet, winGamePay, getAdminPer, addGameResult, getLastrecord, getCurrentBetData };
+module.exports = {
+  placeBet,
+  winGamePay,
+  getAdminPer,
+  addGameResult,
+  getLastrecord,
+  getCurrentBetData,
+};
