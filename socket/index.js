@@ -46,6 +46,7 @@ io.on("connection", (socket) => {
         user,
         time: new Date().getTime() / 1000 - games.startTime,
         numbers: numbers.records,
+        x: numbers.x,
       },
       en: "join",
       status: 1,
