@@ -79,13 +79,15 @@ async function getLastrecord(retailerId) {
       .limit(15);
     let data = [];
     let x = [];
+    let times = [];
 
     for (res of result) {
       data.push(res.result);
       x.push(res.x);
+      times.push(res.DrTime)
     }
 
-    return { records: data, x };
+    return { records: data, x, times };
   } catch (err) {
     console.log("Error on getLastrecord", err.message);
     return err.message;

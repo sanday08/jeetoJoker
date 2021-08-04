@@ -48,6 +48,7 @@ io.on("connection", (socket) => {
         time: new Date().getTime() / 1000 - games.startTime,
         numbers: numbers.records,
         x: numbers.x,
+        times: numbers.times,
       },
       en: "join",
       status: 1,
@@ -170,6 +171,7 @@ getResult = async (stopNum) => {
     data: {
       data: parseInt(result),
       x,
+      times: new Date().getHours().toString() + "-" + new Date().getMinutes().toString() + "-" + new Date().getSeconds().toString()
     },
 
     en: "result",
