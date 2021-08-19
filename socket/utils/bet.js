@@ -33,6 +33,27 @@ async function placeBet(retailerId, position, betPoint, ticketId) {
   }
 }
 
+
+async function getAdminData() {
+  let data = await Bet.aggregate([
+    {
+      $match: {
+        DrDate: () =>
+          new Date()
+            .toLocaleString("en-US", {
+              timeZone: "Asia/Calcutta",
+            })
+            .toString()
+            .split(",")[0]
+            .replace(/\//g, (x) => "-"),
+      },
+    },
+    { $group: { _id: "$DrDate", totalCollection: { $sum: "$bet" }, totalPayment: { $sum: "$won" } } }
+
+  ]);
+  return data;
+}
+
 async function winGamePay(price, betId, winPosition) {
   try {
     console.log(
@@ -60,9 +81,9 @@ async function winGamePay(price, betId, winPosition) {
 }
 
 //Add result of the Game
-async function addGameResult(result, x) {
+async function addGameResult(result, x, isWinByAdmin) {
   try {
-    await WinResult.create({ result, x });
+    await WinResult.create({ result, x, isWinByAdmin });
     await Bet.updateMany({ winPosition: "" }, { winPosition: result, x });
   } catch (err) {
     console.log("Error on addGameResult", err.message);
@@ -111,4 +132,5 @@ module.exports = {
   addGameResult,
   getLastrecord,
   getCurrentBetData,
+  getAdminData,
 };

@@ -5,6 +5,10 @@ const WinResultSchema = new mongoose.Schema(
     result: String,
     DrTime: {
       type: String,
+      isWinByAdmin: {
+        type: Boolean,
+        default: false
+      },
       default: () =>
         new Date()
           .toLocaleString("en-US", {

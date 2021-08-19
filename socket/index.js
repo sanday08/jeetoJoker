@@ -6,7 +6,7 @@ const {
   getAdminPer,
   addGameResult,
   getLastrecord,
-  getCurrentBetData,
+  getAdminData,
 } = require("./utils/bet");
 const immutable = require("object-path-immutable");
 var _ = require("lodash");
@@ -25,6 +25,8 @@ let retailers = {};
 let transactions = {};
 let adminPer = 90;
 let x = 1;
+let isWinByAdmin = false;
+let winnerNumber = 0;
 io.on("connection", (socket) => {
   //Join Event When Application is Start
   socket.on("join", async ({ token }) => {
@@ -55,6 +57,41 @@ io.on("connection", (socket) => {
     });
   });
 
+
+  socket.on("joinAdmin", async ({ adminId }) => {
+    let dataAdmin = await getAdminData();
+
+    let numbers = await getLastrecord();
+    let user = await getUserInfo(adminId);
+    if (user.role == "Admin") {
+      socket.join("adminData");
+      socket.emit("resAdmin", {
+        data: games.position,
+        numbers: numbers.records.splice(0, 5),
+        x: numbers.x.splice(0, 5),
+        time: new Date().getTime() / 1000 - games.startTime,
+        dataAdmin,
+      });
+    } else
+      socket.emit("res", {
+        data: "You are not authorised to access this information",
+        en: "error",
+      });
+  });
+
+
+
+
+  socket.on("winByAdmin", ({ cardNumber, y }) => {
+    console.log("Win By Admin", cardNumber, y);
+    if (cardNumber != undefined) {
+      winnerNumber = cardNumber;
+      x = y;
+      isWinByAdmin = true;
+    }
+  });
+
+
   socket.on("placeBet", async ({ retailerId, position, betPoint }) => {
     let ticketId = nanoid();
     const result = await placeBet(retailerId, position, betPoint, ticketId);
@@ -63,7 +100,9 @@ io.on("connection", (socket) => {
       playJeetoJoker(position, result);
 
       if (betPoint) games.adminBalance += (betPoint * adminPer) / 100;
-
+      socket
+        .to("adminData")
+        .emit("resAdminBetData", { data: games.position, dataAdmin });
       console.log(
         "Viju vinod Chopda Admin balance is: ",
         games.adminBalance,
@@ -148,24 +187,30 @@ getResult = async (stopNum) => {
   if (result == "") {
     result = Math.round(Math.random() * stopNum) + 1;
   }
+  if (winnerNumber === 0) {
+    let counter = 0;
+    if (games.position[result])
+      while (games.adminBalance < games.position[result]) {
+        result = Math.round(Math.random() * stopNum) + 1;
+        counter++;
 
-  let counter = 0;
-  if (games.position[result])
-    while (games.adminBalance < games.position[result]) {
-      result = Math.round(Math.random() * stopNum) + 1;
-      counter++;
-
-      if (counter == 100) {
-        result = Object.keys(sortResult[0])[0];
-        break;
+        if (counter == 100) {
+          result = Object.keys(sortResult[0])[0];
+          break;
+        }
       }
-    }
-  x = Math.floor(Math.random() * 3) + 2;
-  if (games.adminBalance > games.position[result] * x) {
+    x = Math.floor(Math.random() * 3) + 2;
+    if (games.adminBalance > games.position[result] * x) {
+      for (let transId in transactions[result]) {
+        transactions[result][transId] = transactions[result][transId] * x;
+      }
+    } else x = 1;
+  } else {
+    result = winnerNumber;
     for (let transId in transactions[result]) {
       transactions[result][transId] = transactions[result][transId] * x;
     }
-  } else x = 1;
+  }
 
   io.emit("res", {
     data: {
@@ -173,14 +218,13 @@ getResult = async (stopNum) => {
       x,
       times: new Date().getHours().toString() + "-" + new Date().getMinutes().toString() + "-" + new Date().getSeconds().toString()
     },
-
     en: "result",
     status: 1,
   });
 
   if (games.position[result]) games.adminBalance -= games.position[result] * x;
 
-  await addGameResult(result, x);
+  await addGameResult(result, x, isWinByAdmin);
 
   await payTransaction(result);
 
