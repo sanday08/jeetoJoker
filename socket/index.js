@@ -1,5 +1,5 @@
 const { io } = require("../server");
-const { getUserInfoBytoken } = require("./utils/users");
+const { getUserInfoBytoken, getUserInfo } = require("./utils/users");
 const {
   placeBet,
   winGamePay,
