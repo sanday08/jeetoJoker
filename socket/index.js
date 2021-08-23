@@ -289,9 +289,12 @@ sortObject = (entry) => {
 };
 
 flushAll = () => {
+  winnerNumber = 0;
 
   games.position = {};
   transactions = {};
+  isWinByAdmin = false;
+  x = 1;
 };
 
 playJeetoJoker = (position, result) => {
