@@ -100,6 +100,7 @@ io.on("connection", (socket) => {
       playJeetoJoker(position, result);
 
       if (betPoint) games.adminBalance += (betPoint * adminPer) / 100;
+      let dataAdmin = await getAdminData();
       socket
         .to("adminData")
         .emit("resAdminBetData", { data: games.position, dataAdmin });
@@ -231,6 +232,15 @@ getResult = async (stopNum) => {
   // Pay Out of the winners
 
   flushAll();
+  let numbers = await getLastrecord();
+  let dataAdmin = await getAdminData();
+  io.to("adminData").emit("resAdmin", {
+    data: games.position,
+    numbers: numbers.records.splice(0, 5),
+    x: numbers.x.splice(0, 5),
+    time: new Date().getTime() / 1000 - games.startTime,
+    dataAdmin,
+  });
 };
 
 payTransaction = async (result) => {
@@ -279,6 +289,7 @@ sortObject = (entry) => {
 };
 
 flushAll = () => {
+
   games.position = {};
   transactions = {};
 };
