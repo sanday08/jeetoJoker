@@ -60,7 +60,7 @@ exports.getBetHistoryReport = asyncHandler(async (req, res, next) => {
           $lte: new Date(req.query.endDate),
         },
       },
-    },
+    }, { $sort: { createdAt: -1 } }
   ]);
   console.log(
     "Result is ",

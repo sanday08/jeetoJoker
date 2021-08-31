@@ -290,7 +290,6 @@ sortObject = (entry) => {
 
 flushAll = () => {
   winnerNumber = 0;
-
   games.position = {};
   transactions = {};
   isWinByAdmin = false;
